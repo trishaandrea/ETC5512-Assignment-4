@@ -63,7 +63,7 @@ head(data)
 
 ## Blog Post
 #### Why is it important to understand the factors influencing graduate school admission?
-When i graduated as a bachelor, i immediately applied to enter graduate school. At that time, I feel frustated because i did not know what to prepare to apply to graduate school. So with this research i hope, we get a little enlightenment about what we need to expect when applying to graduate school.
+When i graduated as a bachelor, i immediately applied to enter graduate school. At that time, I feel frustated because i did not know what to prepare to apply for graduate school. So with this research i hope, we get a little enlightenment about what we need to expect when applying to graduate school.
 
 By highlighting the importance of knowing what influences admission chances, assisting applicants in maximizing their chances, and directing decision-making in both academic and professional contexts, this question motivates the investigation.
 
