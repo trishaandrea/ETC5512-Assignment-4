@@ -1,7 +1,7 @@
 ---
-title: "What is your blogpost title? Add it here??"
+title: "Vaccination and Public Health: Understanding the Correlation Between COVID-19 Vaccination Rates and Health Outcomes"
 subtitle: "Assignment 4 ETC5512"
-author: Trisha Aurielle Andrea
+author: "Trisha Aurielle Andrea"
 format: html
 editor: visual
 ---
@@ -9,17 +9,65 @@ editor: visual
 ::: panel-tabset
 <!-- Task 1 Tab: Data and Documenting -->
 
-## Data and Documentinggi
+## Data and Documenting
+### Topic of this work
+How do COVID-19 vaccination rates correlate with COVID-19 case rates and mortality across different regions?
 
-### What's in this section
+### Data download
+```{r, echo=FALSE}
+library(readr)
+```
 
-Here is where you should provide the more comprehensive details about your data and your processing steps.
+##### Downloading Dataset 1
+###### Dataset link
+https://www.kaggle.com/datasets/antgoldbloom/covid19-data-from-john-hopkins-university?resource=download
 
-These are the data details that an "average" blog post reader is not concerned with (Task 1).
+###### Description 
+Global COVID-19 data, including the number of confirmed cases, fatalities, and recoveries for different nations and regions, are included in this collection. It is a trustworthy resource for monitoring the global spread of the pandemic and is updated frequently.
 
-### Remember
+###### Download Process
+The dataset can be downloaded directly from Kaggle by using the provided link.
 
-Please mention any additional files that you want the markers to review, eg. read me, meta data etc.
+###### Data Usage
+The analysis of COVID-19's global impact and spread, as well as the correlation of vaccination rates with case and death data, depend on this data.
+
+```{r, warning=FALSE}
+covid_data_cases <- read_csv ("data/COVID-19 data from John Hopkins University/CONVENIENT_global_confirmed_cases.csv")
+covid_data_deaths <- read_csv ("data/COVID-19 data from John Hopkins University/CONVENIENT_global_deaths.csv")
+```
+
+##### Downloading Dataset 2
+###### Dataset link
+https://www.kaggle.com/datasets/gpreda/covid-world-vaccination-progress
+###### Description 
+The number of people vaccinated against COVID-19 in various nations and regions is displayed in this dataset, which includes global vaccination statistics.  It also provides details on the coverage rate and vaccination manufacturers.
+
+###### Download Process
+The dataset can be downloaded directly from Kaggle by using the provided link.
+
+###### Data Usage
+Helpful in establishing a correlation between immunization progress and COVID-19 outcomes, such as recovery rates, fatalities, and cases.
+```{r, warning=FALSE}
+vaccination_data <- read_csv ("data/COVID-19 World Vaccination Progress/country_vaccinations.csv")
+```
+
+##### Downloading Dataset 3
+###### Dataset link
+https://www.kaggle.com/datasets/paultimothymooney/oxford-covid19-government-response-tracker
+
+###### Description 
+This dataset documents national governments' reactions to COVID-19, including travel bans, mask requirements, and lockdowns.  It contains daily information on the occurrence and severity of governmental actions.
+
+###### Download Process
+The dataset can be downloaded directly from Kaggle by using the provided link, and then i converted this xlsx file into csv format.
+
+###### Data Usage
+Analyzing the effects of government policy on vaccination rates, case counts, and mortality requires this data.  For a more thorough analysis, it can be paired with COVID-19 case data and vaccination data.
+
+```{r, warning=FALSE}
+Gov_response <- read_csv ("data/COVID-19 Government Response Tracker.csv")
+```
+
 
 <!-- Task 2 Tab: Writing your blogpost -->
 
