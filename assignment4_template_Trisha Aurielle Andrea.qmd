@@ -1,5 +1,5 @@
 ---
-title: "Exploring the Correlation Between COVID-19 Vaccination Rates and Public Health Outcomes"
+title: "What factors most affect the chances of being admitted to graduate school?"
 subtitle: "Assignment 4 ETC5512"
 author: "Trisha Aurielle Andrea"
 format: html
@@ -18,15 +18,40 @@ library(DT)
 library(Metrics)
 ```
 
-## Data and Documenting
+## Data Details
 
 #### Topic 
+Analyzing the Key Factors Influencing Graduate School Admission Chances: A Predictive Approach
+
 #### Description
+This dataset helps analyze how these factors impact the likelihood of being admitted to a graduate school.
+
+Variables in the Dataset:
+
+- GRE Score: The applicant's score on the GRE test.
+
+- TOEFL Score: The applicant's score on the TOEFL test.
+
+- University Rating: The rating of the university (on a scale from 1 to 5).
+
+- SOP: Statement of Purpose score (on a scale from 1 to 5).
+
+- LOR: Letter of Recommendation score (on a scale from 1 to 5).
+
+- CGPA: The applicant's Cumulative Grade Point Average (on a scale of 10).
+
+- Research: Whether the applicant has research experience (1 = Yes, 0 = No).
+
+- Chance of Admit: The probability of being admitted to the graduate school (from 0 to 1).
+
 #### Dataset link
 https://www.kaggle.com/datasets/omaebelfeki/graduate-admissions-dataset?select=Admission_Predict.csv
 
 #### Download Process
+Download the "Graduate Admission Dataset" from Kaggle, and upload the CSV file into R.
+
 #### Data Usage
+The dataset is used to create models to predict admission chances and examine qualities that affect the possibility of admission, such as research experience, CGPA, GRE, and TOEFL.
 
 ```{r, warning=FALSE}
 data <- read.csv("data/Admission_Predict.csv")
@@ -36,15 +61,19 @@ head(data)
 
 <!-- Task 2 Tab: Writing your blogpost -->
 
-## Blog post
+## Blog Post
+#### Why is it important to understand the factors influencing graduate school admission?
+When i graduated as a bachelor, i immediately applied to enter graduate school. at that time i felt some things that made me frustrated. so with this research i hope, we get a little enlightenment about what we need to expect when applying to graduate school. 
 
-#### Data Preview
+By highlighting the importance of knowing what influences admission chances, assisting applicants in maximizing their chances, and directing decision-making in both academic and professional contexts, this question motivates the investigation.
+
+#### What does the data look like?
 ```{r}
 datatable(data)
 ```
 
-#### Research Experience
-##### Pie Chart of Research Experience
+
+#### What is the distribution of research experience among the applicants?
 ```{r}
 research_data <- data.frame(
   Research = c(sum(data$Research == 1), sum(data$Research == 0)),
@@ -58,27 +87,33 @@ ggplot(research_data, aes(x = "", y = Research, fill = Category)) +
   ggtitle("Distribution of Research Experience") +
   theme(legend.title = element_blank())
 ```
-##### Research Experience vs Chance of Admit
+The distribution of students with and without research experience is displayed in the pie chart above.No Research is shown in red, and the Research category is shown in Turquoise. This graphic makes it clear right away how similar the applicants' research experiences are.
+
+
+#### How does research experience influence the chances of admission?
 ```{r}
 ggplot(data, aes(x = factor(Research), y = Chance.of.Admit)) +
-  geom_bar(stat = "summary", fun = "mean", fill = "steelblue") +
+  geom_bar(stat = "summary", fun = "mean", fill = "blue") +
   ggtitle("Research Experience vs Chance of Admit") +
   xlab("Research Experience (1 = Yes, 0 = No)") +
   ylab("Average Chance of Admit")
 
 ```
+The average chance of admission for students with and without research experience is displayed in a bar plot.  It is evident that students who have (1) Research Experience are more likely to be admitted on average than those who have not (Research = 0).  This demonstrates the beneficial effect that research experience has on admissions chances.
 
 
-#### Bar Plot of University Rating vs Chance of Admit
+#### How does university rating impact the chances of admission?
 ```{r}
 ggplot(data, aes(x = factor(University.Rating), y = Chance.of.Admit)) +
-  geom_bar(stat = "summary", fun = "mean", fill = "orange") +
+  geom_bar(stat = "summary", fun = "mean", fill = "pink") +
   ggtitle("University Rating vs Chance of Admit") +
   xlab("University Rating") +
   ylab("Average Chance of Admit")
 ```
-#### Predicted vs. Actual Chance of Admit
+The average chance of admission based on the university rating (1–5) is displayed in the bar chart.  It demonstrates unequivocally that average admission chances are better at universities with higher ratings (four or five).  This implies that graduate school admissions are significantly influenced by a university's reputation.
 
+
+#### How well do our predictions match the actual chances of admission?
 ```{r}
 model <- lm(Chance.of.Admit ~ GRE.Score + TOEFL.Score + University.Rating + SOP + LOR + CGPA + Research, data = data)
 
@@ -92,25 +127,77 @@ ggplot(data, aes(x = Chance.of.Admit, y = predicted_values)) +
   ylab("Predicted Chance of Admit") +
   theme_minimal()
 ```
+The link between the Actual and Predicted Chance of Admit is shown visually in the scatter plot. Perfect forecasts are indicated by points on the red line, and the majority of the points closely match this line, indicating that our model has correctly forecasted the admission prospects of the majority of candidates. The model performs better the closer the points are to the red line.
 
-#### Blogpost Structure
+#### Conclusions
+This analysis supports the findings of Alon & Gelbgiser (2011) that CGPA, TOEFL scores, and GRE scores have a major influence on graduate school admissions. Additionally, research experience raises the probability of admission, confirming the findings of Carnevale & Rose (2004) that intellectual and social characteristics influence educational chances.
 
-There is no strict structure for you to follow. However, here is a skeleton structure you may find helpful.
+#### References
+Data:
 
-1.  Title (is set at the top of this document)
-2.  Motivation\
-3.  Data\
-4.  Analysis\
-5.  Conclusions\
-6.  References
+Graduate Admission Dataset. (n.d.). Kaggle. Retrieved from https://www.kaggle.com/datasets/omarael/graduate-admissions
+
+R-Packages:
+
+Wickham, H., & Bryan, J. (2019). readr: Read rectangular text data. R package version 1.3.1. Retrieved from https://CRAN.R-project.org/package=readr
+
+Wickham, H. (2016). ggplot2: Elegant graphics for data analysis. Springer-Verlag New York. https://ggplot2.tidyverse.org
+
+Wickham, H., Francois, R., Henry, L., & Müller, K. (2021). dplyr: A grammar of data manipulation. R package version 1.0.7. Retrieved from https://CRAN.R-project.org/package=dplyr
+
+Wickham, H., & Romain, F. (2021). tidyverse: Easily install and load the ‘tidyverse’. R package version 1.3.1. Retrieved from https://CRAN.R-project.org/package=tidyverse
+
+Xie, Y. (2020). DT: A wrapper of the JavaScript library 'DataTables'. R package version 0.18. Retrieved from https://CRAN.R-project.org/package=DT
+
+Khandekar, A. (2018). Metrics: Evaluation metrics for machine learning. R package version 0.1.4. Retrieved from https://CRAN.R-project.org/package=Metrics
+
+Methods and Inspiration:
+
+Alon, S., & Gelbgiser, D. (2011).
+The role of higher education in the labor market: Evidence from graduate school admissions in the United States.
+Social Science Research, 40(4), 1086-1099.
+https://www.sciencedirect.com/
+
+Carnevale, A. P., & Rose, S. J. (2004).
+Socioeconomic Status, Race/Ethnicity, and Selective College Admissions.
+The Journal of Higher Education, 75(6), 580-604.
+https://www.jstor.org/stable/3838760 
+
 
 <!-- Task 3 Tab: Behind the Scenes -  -->
 
 ## Behind the Scenes
 
-### What's in this section
+###### Tell us about parts of your data processing or analysis that weren’t “sexy” and wouldn’t typically be included in a blog post. (e.g. Was their any data drudgery or time intensive wrangling? Were there any repetitive tasks or manual tasks? If it was easy, describe what made it easy?)
 
-Here is where you should tell us about your reflection on your analysis (Task 3).
+- When data processing is unpleasant for me, I've also tried changing the variable names in the data, merging the data, and cleaning the data.  It takes a lot of time.
 
-Again, these are the details about **your** perspective and the gritty details behind the scenes of your analysis.
+- Finding the appropriate data is another challenge I have after deciding on a topic.  Since it was the most pertinent dataset I could find, I only use it here.
+
+
+###### Were there any challenges that you faced in conducting this analysis. These may take the form of data limitations or coding challenges? (e.g. Was there anything in your analysis that you were not anticipating when you started? Did you have to change your intended scope? Did you need to master a new skill? Were there any problems you were proud of solving?)
+
+- Yes, I experienced unexpected challenges, I am having data limitation problem, and that is my biggest problem. And also, because of the data limitations that I experienced I tried to merge several datasets but the variable names in both were also different and it was too difficult to process.
+
+- I will include a link to the git repository at the very bottom so you can see my process of solving this problem. You can see that the problem solving I did was to change the topic and also the data from the beginning.
+
+- Why did I change the topic? this is because I was trying to find data and a difficult topic, so in the middle of the road I was no longer motivated to continue it.
+
+- There are many lessons that I can take from working on this assignment, one of the most important is, knowing my own abilities and interests. I found this new topic and data when I was in the library and it is very relevant to my daily life, so even though it seems simple, working on it makes me feel satisfied and very motivated.
+
+- Also, one more thing I learned is to check and give it some thought before deciding something.
+
+###### Tell us about any imperfect parts of your work and how you would like to expand or improve this analysis in future? Be clear about any limitations or aspects of your analysis that fell beyond scope.
+
+- To be honest, I want to enrich my data and research even more. But I think I have made a clear and concise point for my research.
+
+- In the future, I will create a report structure first to make it more time efficient. Because in the middle I started to run out of ideas about what other data visualizations I wanted to come up with
+
+######  Also submit 4 earlier versions of your assignment to show your iterative process. These should be your messy versions and include exploratory code. We recommend you save these files as you progress through your assignment. Provide a short overview for markers of what you fixed/learnt/improved/changed between each file. (If you are comfortable with GitHub you may submit your Github repo, but please refer to individual commits.)
+
+- Below I include my github link:
+
+https://github.com/trishaandrea/ETC5512-Assignment-4
+
+
 :::
