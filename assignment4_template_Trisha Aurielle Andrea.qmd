@@ -1,5 +1,5 @@
 ---
-title: "Vaccination and Public Health: Understanding the Correlation Between COVID-19 Vaccination Rates and Health Outcomes"
+title: "Exploring the Correlation Between COVID-19 Vaccination Rates and Public Health Outcomes"
 subtitle: "Assignment 4 ETC5512"
 author: "Trisha Aurielle Andrea"
 format: html
@@ -9,63 +9,28 @@ editor: visual
 ::: panel-tabset
 <!-- Task 1 Tab: Data and Documenting -->
 
-## Data and Documenting
-### Topic of this work
-How do COVID-19 vaccination rates correlate with COVID-19 case rates and mortality across different regions?
-
-### Data download
 ```{r, echo=FALSE}
 library(readr)
+library(ggplot2)
+library(dplyr)
+library(tidyverse)
+library(DT)
+library(Metrics)
 ```
 
-##### Downloading Dataset 1
-###### Dataset link
-https://www.kaggle.com/datasets/antgoldbloom/covid19-data-from-john-hopkins-university?resource=download
+## Data and Documenting
 
-###### Description 
-Global COVID-19 data, including the number of confirmed cases, fatalities, and recoveries for different nations and regions, are included in this collection. It is a trustworthy resource for monitoring the global spread of the pandemic and is updated frequently.
+#### Topic 
+#### Description
+#### Dataset link
+https://www.kaggle.com/datasets/omaebelfeki/graduate-admissions-dataset?select=Admission_Predict.csv
 
-###### Download Process
-The dataset can be downloaded directly from Kaggle by using the provided link.
-
-###### Data Usage
-The analysis of COVID-19's global impact and spread, as well as the correlation of vaccination rates with case and death data, depend on this data.
+#### Download Process
+#### Data Usage
 
 ```{r, warning=FALSE}
-covid_data_cases <- read_csv ("data/COVID-19 data from John Hopkins University/CONVENIENT_global_confirmed_cases.csv")
-covid_data_deaths <- read_csv ("data/COVID-19 data from John Hopkins University/CONVENIENT_global_deaths.csv")
-```
-
-##### Downloading Dataset 2
-###### Dataset link
-https://www.kaggle.com/datasets/gpreda/covid-world-vaccination-progress
-###### Description 
-The number of people vaccinated against COVID-19 in various nations and regions is displayed in this dataset, which includes global vaccination statistics.  It also provides details on the coverage rate and vaccination manufacturers.
-
-###### Download Process
-The dataset can be downloaded directly from Kaggle by using the provided link.
-
-###### Data Usage
-Helpful in establishing a correlation between immunization progress and COVID-19 outcomes, such as recovery rates, fatalities, and cases.
-```{r, warning=FALSE}
-vaccination_data <- read_csv ("data/COVID-19 World Vaccination Progress/country_vaccinations.csv")
-```
-
-##### Downloading Dataset 3
-###### Dataset link
-https://www.kaggle.com/datasets/paultimothymooney/oxford-covid19-government-response-tracker
-
-###### Description 
-This dataset documents national governments' reactions to COVID-19, including travel bans, mask requirements, and lockdowns.  It contains daily information on the occurrence and severity of governmental actions.
-
-###### Download Process
-The dataset can be downloaded directly from Kaggle by using the provided link, and then i converted this xlsx file into csv format.
-
-###### Data Usage
-Analyzing the effects of government policy on vaccination rates, case counts, and mortality requires this data.  For a more thorough analysis, it can be paired with COVID-19 case data and vaccination data.
-
-```{r, warning=FALSE}
-Gov_response <- read_csv ("data/COVID-19 Government Response Tracker.csv")
+data <- read.csv("data/Admission_Predict.csv")
+head(data)
 ```
 
 
@@ -73,11 +38,62 @@ Gov_response <- read_csv ("data/COVID-19 Government Response Tracker.csv")
 
 ## Blog post
 
-### What's in this section
+#### Data Preview
+```{r}
+datatable(data)
+```
 
-Here is where you should write your blogpost! (Task 2)
+#### Research Experience
+##### Pie Chart of Research Experience
+```{r}
+research_data <- data.frame(
+  Research = c(sum(data$Research == 1), sum(data$Research == 0)),
+  Category = c("Research", "No Research")
+)
 
-### Blogpost Structure
+ggplot(research_data, aes(x = "", y = Research, fill = Category)) +
+  geom_bar(stat = "identity", width = 1) +
+  coord_polar("y") +
+  theme_void() +
+  ggtitle("Distribution of Research Experience") +
+  theme(legend.title = element_blank())
+```
+##### Research Experience vs Chance of Admit
+```{r}
+ggplot(data, aes(x = factor(Research), y = Chance.of.Admit)) +
+  geom_bar(stat = "summary", fun = "mean", fill = "steelblue") +
+  ggtitle("Research Experience vs Chance of Admit") +
+  xlab("Research Experience (1 = Yes, 0 = No)") +
+  ylab("Average Chance of Admit")
+
+```
+
+
+#### Bar Plot of University Rating vs Chance of Admit
+```{r}
+ggplot(data, aes(x = factor(University.Rating), y = Chance.of.Admit)) +
+  geom_bar(stat = "summary", fun = "mean", fill = "orange") +
+  ggtitle("University Rating vs Chance of Admit") +
+  xlab("University Rating") +
+  ylab("Average Chance of Admit")
+```
+#### Predicted vs. Actual Chance of Admit
+
+```{r}
+model <- lm(Chance.of.Admit ~ GRE.Score + TOEFL.Score + University.Rating + SOP + LOR + CGPA + Research, data = data)
+
+predicted_values <- predict(model, data)
+
+ggplot(data, aes(x = Chance.of.Admit, y = predicted_values)) +
+  geom_point(color = "steelblue") +
+  geom_abline(slope = 1, intercept = 0, color = "red") +
+  ggtitle("Predicted vs Actual Chance of Admit") +
+  xlab("Actual Chance of Admit") +
+  ylab("Predicted Chance of Admit") +
+  theme_minimal()
+```
+
+#### Blogpost Structure
 
 There is no strict structure for you to follow. However, here is a skeleton structure you may find helpful.
 
